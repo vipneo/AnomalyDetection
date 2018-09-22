@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Xunit;
 
-namespace AnomalyDetection.UnitTests
+namespace AnomalyDetection.Algorithm.UnitTests
 {
     public class StreamingMedianCalculatorTests
     {

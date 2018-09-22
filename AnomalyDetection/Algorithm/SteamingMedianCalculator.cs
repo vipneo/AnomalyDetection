@@ -3,7 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace AnomalyDetection {
+namespace AnomalyDetection.Algorithm
+{
 
     public class StreamingMedianCalculator
     {
