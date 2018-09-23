@@ -1,19 +1,19 @@
 ﻿using System;
 
-namespace AnomalyDetection.DataImport
+namespace AnomalyDetection.Models
 {
-    public class ImportRecord : IEquatable<ImportRecord>
+    public class ParsedInputDataRecord : IEquatable<ParsedInputDataRecord>
     {
         public DateTime DateTime;
         public double Value;
 
-        public ImportRecord(DateTime dateTime, double value)
+        public ParsedInputDataRecord(DateTime dateTime, double value)
         {
             DateTime = dateTime;
             Value = value;
         }
 
-        public bool Equals(ImportRecord other)
+        public bool Equals(ParsedInputDataRecord other)
         {
             return DateTime.Equals(other.DateTime) && Value.Equals(other.Value);
         }

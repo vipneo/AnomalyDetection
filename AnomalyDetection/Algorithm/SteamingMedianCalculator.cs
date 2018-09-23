@@ -1,19 +1,21 @@
 using SD.Tools.Algorithmia.PriorityQueues;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace AnomalyDetection.Algorithm
 {
+    public interface IStreamingMedianCalculator
+    {
+        void Push(double nextNumber);
+        double Median();
+    }
 
-    public class StreamingMedianCalculator
+    public class StreamingMedianCalculator : IStreamingMedianCalculator
     {
         private SimplePriorityQueue<double> lowerTerms;
         private SimplePriorityQueue<double> upperTerms;
 
         public StreamingMedianCalculator() {
-            this.lowerTerms = new SimplePriorityQueue<double>((x,y) => x.CompareTo(y));
-            this.upperTerms = new SimplePriorityQueue<double>((x,y) => x.CompareTo(y) * -1);
+            lowerTerms = new SimplePriorityQueue<double>((x,y) => x.CompareTo(y));
+            upperTerms = new SimplePriorityQueue<double>((x,y) => x.CompareTo(y) * -1);
         }
 
         public void Push(double nextNumber)

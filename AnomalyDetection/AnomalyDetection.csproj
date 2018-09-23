@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.8.1" />
     <PackageReference Include="CsvHelper" Version="7.1.1" />
     <PackageReference Include="SD.Tools.Algorithmia" Version="1.3.3" />
   </ItemGroup>
