@@ -3,9 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnomalyDetection", "AnomalyDetection\AnomalyDetection.csproj", "{453478A0-156C-4DAE-B006-99C12CA0E0EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnomalyDetection", "AnomalyDetection\AnomalyDetection.csproj", "{453478A0-156C-4DAE-B006-99C12CA0E0EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnomalyDetection.UnitTests", "AnomalyDetection.UnitTests\AnomalyDetection.UnitTests.csproj", "{224B65D9-DDC8-4C2F-8E8E-6EC373414B09}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnomalyDetection.UnitTests", "AnomalyDetection.UnitTests\AnomalyDetection.UnitTests.csproj", "{224B65D9-DDC8-4C2F-8E8E-6EC373414B09}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DDA21DBC-EDCB-4192-9CCD-8A82AC7D2776}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,9 +20,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{453478A0-156C-4DAE-B006-99C12CA0E0EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -44,5 +46,11 @@ Global
 		{224B65D9-DDC8-4C2F-8E8E-6EC373414B09}.Release|x64.Build.0 = Release|Any CPU
 		{224B65D9-DDC8-4C2F-8E8E-6EC373414B09}.Release|x86.ActiveCfg = Release|Any CPU
 		{224B65D9-DDC8-4C2F-8E8E-6EC373414B09}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D9DCC923-16B9-4B97-ADAF-C8334778B05E}
 	EndGlobalSection
 EndGlobal

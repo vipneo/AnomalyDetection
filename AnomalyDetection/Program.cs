@@ -15,7 +15,9 @@ namespace AnomalyDetection
         static void Main(string[] args)
         {
             ConfigureContainer();
-            RunApplication();
+
+            var workingDirectory = GetWorkingDirectory(args);
+            RunApplication(workingDirectory);
         }
 
         private static void ConfigureContainer()
@@ -35,16 +37,22 @@ namespace AnomalyDetection
             Container = builder.Build();
         }
 
-        private static void RunApplication()
+        private static void RunApplication(DirectoryInfo directory)
         {
             using (var scope = Container.BeginLifetimeScope())
             {
-                var directory = AppContext.BaseDirectory;
-                var directoryInfo = new DirectoryInfo(directory);
-
                 var directoryProcessor = scope.Resolve<IDirectoryProcessor>();
-                directoryProcessor.ProcessDirectory(directoryInfo);
+                directoryProcessor.ProcessDirectory(directory);
             }
+        }
+
+        private static DirectoryInfo GetWorkingDirectory(string[] args)
+        {
+            if (args.Length >= 1)
+            {
+                return new DirectoryInfo(args[0]);
+            }
+            return new DirectoryInfo(Environment.CurrentDirectory);
         }
     }
 }
