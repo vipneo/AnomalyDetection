@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Serilog;
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -11,13 +13,33 @@ namespace AnomalyDetection.IO
 
     public class CsvFileReader : ICsvFileReader
     {
+        private readonly ILogger log;
+
+        public CsvFileReader(ILogger log)
+        {
+            this.log = log;
+        }
+
         public IEnumerable<dynamic> ReadCsvFileToDynamics(TextReader textReader)
         {
-            using (var reader = new CsvHelper.CsvReader(textReader))
+            try
             {
-                reader.Configuration.PrepareHeaderForMatch =
-                    header => header?.Trim()?.Replace(" ", string.Empty)?.Replace("/", string.Empty);
-                return reader.GetRecords<dynamic>().ToArray();
+                using (var reader = new CsvHelper.CsvReader(textReader))
+                {
+                    reader.Configuration.PrepareHeaderForMatch =
+                        header => header?.Trim()?.Replace(" ", string.Empty)?.Replace("/", string.Empty);
+                    var records = reader.GetRecords<dynamic>().ToArray();
+
+                    log.Debug("Read csv file and parsed {@RowCount} rows", records.Count());
+
+                    return records;
+                }
+            }
+            catch (Exception e)
+            {
+                log.Error(e, "Failed to read and parse csv file");
+
+                throw e;
             }
         }
     }

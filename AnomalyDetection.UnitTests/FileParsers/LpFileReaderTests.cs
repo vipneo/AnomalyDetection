@@ -2,6 +2,7 @@
 using AnomalyDetection.IO;
 using AnomalyDetection.Models;
 using Moq;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
@@ -15,6 +16,7 @@ namespace AnomalyDetection.UnitTests.FileParsers
         [Fact]
         public void GivenACsvTextReader_WhenWeParseAnLpFile_ThenWeGetImportRecordsWithTheCorrectValues()
         {
+            var logger = new Mock<ILogger>();
             var mockDataStream = new Mock<TextReader>();
             var mockCsvFileReader = new Mock<ICsvFileReader>();
 
@@ -34,7 +36,7 @@ namespace AnomalyDetection.UnitTests.FileParsers
                     sampleDataItem2
                 });
 
-            var sut = new LpFileParser(mockCsvFileReader.Object);
+            var sut = new LpFileParser(mockCsvFileReader.Object, logger.Object);
 
             var expected = new List<ParsedInputDataRecord>
             {

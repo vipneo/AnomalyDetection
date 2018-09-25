@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "AnomalyDetection": {
+      "commandName": "Project",
+      "commandLineArgs": "\"..\\..\\..\\..\\sampledata\""
+    }
+  }
+}

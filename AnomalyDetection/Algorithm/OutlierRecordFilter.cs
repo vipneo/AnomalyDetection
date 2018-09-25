@@ -1,5 +1,6 @@
 ﻿using AnomalyDetection.Models;
 using Autofac;
+using Serilog;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -12,12 +13,23 @@ namespace AnomalyDetection.Algorithm
 
     public class OutlierRecordFilter : IOutlierRecordFilter
     {
+        private readonly ILogger log;
+
+        public OutlierRecordFilter(ILogger log)
+        {
+            this.log = log;
+        }
+
         public IEnumerable<ParsedInputDataRecord> FilterRecords(IEnumerable<ParsedInputDataRecord> records, double median, double outlierPercentage)
         {
             var lowerBound = GetLowerBound(median, outlierPercentage);
             var upperBound = GetUpperBound(median, outlierPercentage);
 
-            return records.Where(r => IsOutlierValue(r.Value, lowerBound, upperBound));
+            var filteredRecords = records.Where(r => IsOutlierValue(r.Value, lowerBound, upperBound));
+
+            log.Debug("Found {@OutlierRecordCount} outliers in {@RecordCount} records with Median: {@Median}, OutlierPercentage: {@OutlierPercentage}, LowerBound: {@LowerBound}, UpperBound: {@UpperBound}", filteredRecords.Count(), records.Count(), median, outlierPercentage, lowerBound, upperBound);
+
+            return filteredRecords;
         }
 
         public double GetLowerBound(double median, double outlierPercentage)
@@ -37,7 +49,11 @@ namespace AnomalyDetection.Algorithm
             var isOutOfBounds = isLowerThanLowerBound || isAboveThanUpperBound;
             var isNotEqualToBothBounds = value != lowerBound || value != upperBound;
 
-            return isOutOfBounds && isNotEqualToBothBounds;
+            var isOutlier = isOutOfBounds && isNotEqualToBothBounds;
+
+            log.Verbose("Checking if value {@Value} is Outlier. With LowerBound {@LowerBound} and UpperBound {@UpperBound}, Result {@IsOutlier}", value, lowerBound, upperBound, isOutlier);
+                
+            return isOutlier;
         }
     }
 }

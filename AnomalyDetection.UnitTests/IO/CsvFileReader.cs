@@ -1,4 +1,6 @@
 ﻿using AnomalyDetection.IO;
+using Moq;
+using Serilog;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -11,13 +13,14 @@ namespace AnomalyDetection.UnitTests.IO
         [Fact]
         public void GivenCsvData_WhenIReadIt_ThenIGetADynamicWithTheFieldValues()
         {
+            var logger = new Mock<ILogger>();
             var sampleData =
 @"MeterPoint Code,Serial Number,Plant Code,Date/Time,Data Type,Data Value,Units,Status
 210095893,210095893,ED031000001,31/08/2015 00:45:00,Import Wh Total,0.000000,kwh,
 210095893,210095893,ED031000001,12/03/2015 00:45:00,Import Wh Total,2.000400,kwh,";
             var sampleDataStream = new StreamReader(new MemoryStream(Encoding.UTF8.GetBytes(sampleData)));
 
-            var sut = new CsvFileReader();
+            var sut = new CsvFileReader(logger.Object);
 
             var result = sut.ReadCsvFileToDynamics(sampleDataStream);
 

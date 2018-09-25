@@ -3,6 +3,8 @@ using AnomalyDetection.FileParsers;
 using AnomalyDetection.IO;
 using AnomalyDetection.Settings;
 using Autofac;
+using AutofacSerilogIntegration;
+using Serilog;
 using System;
 using System.IO;
 
@@ -14,15 +16,39 @@ namespace AnomalyDetection
 
         static void Main(string[] args)
         {
+            ConfigureLogger();
+
             ConfigureContainer();
 
             var workingDirectory = GetWorkingDirectory(args);
-            RunApplication(workingDirectory);
+
+            try
+            {
+                RunApplication(workingDirectory);
+            } 
+            finally
+            {
+                Log.CloseAndFlush();
+            }
+        }
+
+        private static void ConfigureLogger()
+        {
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Verbose()
+                .Enrich.WithAssemblyName()
+                .Enrich.WithAssemblyVersion()
+                //.WriteTo.Console()
+                .WriteTo.File("log.txt")
+                //.WriteTo.Seq("http://localhost:5341")
+                .CreateLogger();
         }
 
         private static void ConfigureContainer()
         {
             var builder = new ContainerBuilder();
+
+            builder.RegisterLogger();
 
             builder.RegisterType<DirectoryProcessor>().As<IDirectoryProcessor>();
             builder.RegisterType<FileProcessor>().As<IFileProcessor>();

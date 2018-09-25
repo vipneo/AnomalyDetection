@@ -1,4 +1,6 @@
 using AnomalyDetection.Algorithm;
+using Moq;
+using Serilog;
 using Xunit;
 
 namespace AnomalyDetection.UnitTests.Algorithm
@@ -8,7 +10,8 @@ namespace AnomalyDetection.UnitTests.Algorithm
         [Fact]
         public void GivenAnEmptyState_WhenASingleNumberIsPushed_ThenTheMedianIsThatNumber()
         {
-            var sut = new StreamingMedianCalculator();
+            var logger = new Mock<ILogger>();
+            var sut = new StreamingMedianCalculator(logger.Object);
             var onlyNumber = 5.0;
 
             sut.Push(onlyNumber);
@@ -19,7 +22,8 @@ namespace AnomalyDetection.UnitTests.Algorithm
         [Fact]
         public void GivenAnEmptyState_WhenTwoNumbersArePushed_ThenTheMedianIsAverageOfThoseNumbers()
         {
-            var sut = new StreamingMedianCalculator();
+            var logger = new Mock<ILogger>();
+            var sut = new StreamingMedianCalculator(logger.Object);
             var firstNumber = 5.0;
             var secondNumber = 15.0;
 
@@ -34,7 +38,8 @@ namespace AnomalyDetection.UnitTests.Algorithm
         [Fact]
         public void GivenAnEmptyState_WhenThreeNumbersArePushed_AndTheyAreInOrder_ThenTheMedianIsTheSecondNumber()
         {
-            var sut = new StreamingMedianCalculator();
+            var logger = new Mock<ILogger>();
+            var sut = new StreamingMedianCalculator(logger.Object);
             var firstNumber = 5.0;
             var secondNumber = 15.0;
             var thirdNumber = 60.0;
@@ -49,7 +54,8 @@ namespace AnomalyDetection.UnitTests.Algorithm
         [Fact]
         public void GivenAnEmptyState_WhenFourNumbersArePushed_AndTheyAreInOrder_ThenTheMedianIsTheAverageOfTheSecondAndThirdNumbers()
         {
-            var sut = new StreamingMedianCalculator();
+            var logger = new Mock<ILogger>();
+            var sut = new StreamingMedianCalculator(logger.Object);
             var firstNumber = 5.0;
             var secondNumber = 15.0;
             var thirdNumber = 60.0;
@@ -68,7 +74,8 @@ namespace AnomalyDetection.UnitTests.Algorithm
         [Fact]
         public void GivenAnEmptyState_WhenThreeNumbersArePushed_AndTheyAreNotInOrder_ThenTheMedianIsTheSecondNumber()
         {
-            var sut = new StreamingMedianCalculator();
+            var logger = new Mock<ILogger>();
+            var sut = new StreamingMedianCalculator(logger.Object);
             var lowestNumber = 5.0;
             var middleNumber = 15.0;
             var highestNumber = 60.0;
@@ -83,7 +90,8 @@ namespace AnomalyDetection.UnitTests.Algorithm
         [Fact]
         public void GivenAnEmptyState_WhenFourNumbersArePushed_AndTheyAreNotInOrder_ThenTheMedianIsTheAverageOfTheSortedSecondAndThirdNumbers()
         {
-            var sut = new StreamingMedianCalculator();
+            var logger = new Mock<ILogger>();
+            var sut = new StreamingMedianCalculator(logger.Object);
             var lowestNumber = 5.0;
             var secondLowestNumber = 15.0;
             var secondHigestNumber = 60.0;
@@ -101,7 +109,8 @@ namespace AnomalyDetection.UnitTests.Algorithm
 
         [Fact]
         public void GivenAnEmptyState_WhenFourNumbersArePushed_AndTheFirstTwoNumbersAreEqual_ThenTheMedianIsTheAverageOfTheSortedSecondAndThirdNumbers() {
-            var sut = new StreamingMedianCalculator();
+            var logger = new Mock<ILogger>();
+            var sut = new StreamingMedianCalculator(logger.Object);
             var lowestNumber = 5.0;
             var secondLowestNumber = 5.0;
             var secondHigestNumber = 60.0;

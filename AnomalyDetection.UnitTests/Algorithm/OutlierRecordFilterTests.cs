@@ -1,4 +1,6 @@
 ﻿using AnomalyDetection.Algorithm;
+using Moq;
+using Serilog;
 using Xunit;
 
 namespace AnomalyDetection.UnitTests.Algorithm
@@ -10,7 +12,8 @@ namespace AnomalyDetection.UnitTests.Algorithm
         [InlineData(22.3, 0.3, 15.61)]
         public void GivenAMedianAndAnOutlierPercentage_WhenIGetTheLowerBound_ThenIGetTheCorrectValue(double median, double outlierPercentage, double expectedLowerBound)
         {
-            var sut = new OutlierRecordFilter();
+            var logger = new Mock<ILogger>();
+            var sut = new OutlierRecordFilter(logger.Object);
 
             Assert.Equal(expectedLowerBound, sut.GetLowerBound(median, outlierPercentage));
         }
@@ -20,7 +23,8 @@ namespace AnomalyDetection.UnitTests.Algorithm
         [InlineData(22.5, 0.5, 33.75)]
         public void GivenAMedianAndAnOutlierPercentage_WhenIGetTheUpperBound_ThenIGetTheCorrectValue(double median, double outlierPercentage, double expectedUpperBound)
         {
-            var sut = new OutlierRecordFilter();
+            var logger = new Mock<ILogger>();
+            var sut = new OutlierRecordFilter(logger.Object);
 
             Assert.Equal(expectedUpperBound, sut.GetUpperBound(median, outlierPercentage));
         }
@@ -33,7 +37,8 @@ namespace AnomalyDetection.UnitTests.Algorithm
         [InlineData(454.22, 300, 454.22, true)]
         public void GivenAValueAndLowerAndUpperBounds_WhenICheckIfTheValueIsAnOutlier_ThenIGetTheCorrectResult(double value, double lowerBound, double upperBound, bool expected)
         {
-            var sut = new OutlierRecordFilter();
+            var logger = new Mock<ILogger>();
+            var sut = new OutlierRecordFilter(logger.Object);
 
             Assert.Equal(expected, sut.IsOutlierValue(value, lowerBound, upperBound));
         }
@@ -44,7 +49,8 @@ namespace AnomalyDetection.UnitTests.Algorithm
         [InlineData(-2, 0, 0, true)]
         public void GivenAValueAndBothBoundsAreZero_WhenICheckIfTheValueIsAnOutlier_ThenIGetTheCorrectResult(double value, double lowerBound, double upperBound, bool expected)
         {
-            var sut = new OutlierRecordFilter();
+            var logger = new Mock<ILogger>();
+            var sut = new OutlierRecordFilter(logger.Object);
 
             Assert.Equal(expected, sut.IsOutlierValue(value, lowerBound, upperBound));
         }

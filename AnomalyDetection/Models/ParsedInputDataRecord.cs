@@ -4,8 +4,8 @@ namespace AnomalyDetection.Models
 {
     public class ParsedInputDataRecord : IEquatable<ParsedInputDataRecord>
     {
-        public DateTime DateTime;
-        public double Value;
+        public DateTime DateTime { get; private set; }
+        public double Value { get; private set; }
 
         public ParsedInputDataRecord(DateTime dateTime, double value)
         {
